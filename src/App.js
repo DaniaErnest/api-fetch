@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import chuck from './chuck.png';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+
+  const [state, setState,] = useState({
+    joke: ''
+  })
+
+  useEffect(() => {
+    apiFetch();
+   
+  },[]);
+
+  const apiFetch = async () => {
+     const result = await axios.get('https://api.chucknorris.io/jokes/random');
+     console.log(result.data.value);
+     setState({
+      ...state,
+      joke: result.data.value
+     })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className='container'>
+       
+          <div>
+            <h1 className="title">Chuck Norris</h1>
+            <img src={chuck} alt="chuck-norris" />
+          </div>
+       
+        <h2 className='subtitle'>Here is the Joke</h2>
+        <h4>{state.joke}</h4>
+      </div>
   );
 }
 
